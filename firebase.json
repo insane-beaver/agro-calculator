@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/agro-calculator",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
