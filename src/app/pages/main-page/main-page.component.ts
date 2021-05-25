@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForm} from '@angular/forms';
-import * as firebase from 'firebase/app';
+import {NgForm, NgModel} from '@angular/forms';
+import firebase from 'firebase/app';
 import 'firebase/analytics'
 
 @Component({
@@ -11,7 +11,7 @@ import 'firebase/analytics'
 export class MainPageComponent implements OnInit {
 
   bRows!: number;
-  gp!: number;
+  gp!: string;
   mp!: number;
   d!: number;
   numbOnM!: number;
@@ -19,7 +19,7 @@ export class MainPageComponent implements OnInit {
   analytics;
 
   constructor() {
-    this.analytics = firebase.default.analytics();
+    this.analytics = firebase.analytics();
   }
 
   ngOnInit(): void {
@@ -28,14 +28,28 @@ export class MainPageComponent implements OnInit {
   calculate(form: NgForm): void {
     this.analytics.logEvent(form);
     this.bRows = form.value.bRows;
-    this.gp = form.value.gp;
+    this.gp = this.replaceSpaces(form.value.gp);
 
-    if(!((this.bRows<1)&&(this.gp<1))) {
+    if(!((this.bRows<1)&&(Number(this.gp)<1))) {
       this.mp = +(100 / this.bRows).toFixed(3);
-      this.d = +(1000000 / this.gp * this.mp).toFixed(3);
+      this.d = +(1000000 / Number(this.gp) * this.mp).toFixed(3);
       this.numbOnM = +(100 / this.d).toFixed(3);
+
       this.isCounted = true;
+      this.gp = (this.gp).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
     }
+  }
+
+  gpData(input: NgModel) {
+    this.gp = (this.replaceSpaces(input.viewModel+'')).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+  }
+
+  replaceSpaces(input: string) {
+    let arr: string[] = (input).split('');
+    arr.forEach(element => {
+      if(element == ' ') arr.splice(arr.indexOf(element),1);
+    });
+    return arr.join('');
   }
 
 }

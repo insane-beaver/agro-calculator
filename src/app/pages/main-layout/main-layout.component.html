@@ -3,11 +3,25 @@
   <div class="top-bar" id="header">
     <nav class="d-flex navbar navbar-dark header">
       <div class="d-flex justify-content-start">
+        <button id="menu" class="menu"  aria-label="Main Menu" (click)="toggleOverlay()" style="margin-top: -4vh">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+            <path class="line line2" d="M 20,50 H 80" />
+            <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+          </svg>
+        </button>
         <a class="ml-3 navbar-brand" routerLink="/">
           AgroCalc
         </a>
       </div>
     </nav>
+
+    <div id="mySidebar" class="sidebar" (click)="toggleOverlay()">
+      <div id="sidebar-content" class="sidebar-content">
+        <a routerLink="/">Основний калькулятор</a>
+        <a routerLink="reverse-calc">Зворотній калькулятор</a>
+      </div>
+    </div>
   </div>
 
   <div class="page-content main" id="content">
@@ -17,5 +31,40 @@
   </div>
 </div>
 </body>
+<!-- Site footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-sm-6 col-xs-12">
+        <p class="copyright-text">Приватне підприємство
+          <a href="https://www.facebook.com/adler.zhytomyr/">Адлєр</a>
+          <img src="assets/adler.png" style="max-height: 3rem; margin-left: 1rem">
+        </p>
+      </div>
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <ul class="social-icons">
+          <li><a class="facebook" href="https://www.facebook.com/adler.zhytomyr/"><i class="bi bi-facebook"></i></a></li>
+          <li><a class="linkedin" href="https://www.linkedin.com/company/adler-pe/"><i class="bi bi-linkedin"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-8 col-sm-6 col-xs-12">
+        <p class="copyright-text">Copyright &copy; 2021. Всі права захищено
+          <a href="https://www.facebook.com/profile.php?id=100010335193629">Олександр Васьков</a>
+        </p>
+      </div>
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <ul class="social-icons">
+          <li><a class="facebook" href="https://www.facebook.com/profile.php?id=100010335193629"><i class="bi bi-facebook"></i></a></li>
+          <li><a class="twitter" href="https://twitter.com/MeWho_Me"><i class="bi bi-twitter"></i></a></li>
+          <li><a class="dribbble" href="https://github.com/insane-beaver"><i class="bi bi-github"></i></a></li>
+          <li><a class="linkedin" href="https://www.linkedin.com/in/oleksandr-vaskov-9828441b7/"><i class="bi bi-linkedin"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
 
 

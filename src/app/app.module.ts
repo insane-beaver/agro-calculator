@@ -10,6 +10,7 @@ import {environment} from '../environments/environment';
 //Firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+import { ReverseCalcComponent } from './pages/reverse-calc/reverse-calc.component';
 
 
 
@@ -17,7 +18,8 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
   declarations: [
     AppComponent,
     MainLayoutComponent,
-    MainPageComponent
+    MainPageComponent,
+    ReverseCalcComponent
   ],
   imports: [
     BrowserModule,

@@ -8,9 +8,17 @@
     </div>
     <br>
     <div class="input-group input-group-lg">
-      <span class="input-group-text input-text-border"><p class="input-text">Норма висіву</p></span>
-      <input type="text" inputmode="numeric" ngModel="ctrl.dLicence" #gp_input="ngModel" name="gp" [ngModel]="gp"
-             (input)="gpData(gp_input)" required class="form-control" aria-label="Sizing example input"
+      <span class="input-group-text input-text-border"><p class="input-text">Обрахункова відстань</p></span>
+      <input type="text" inputmode="numeric" ngModel="ctrl.dLicence" #ob_input="ngModel" name="ob" [ngModel]="ob"
+             (input)="obData(ob_input)" required class="form-control" aria-label="Sizing example input"
+             aria-describedby="inputGroup-sizing-lg"/>
+      <span class="input-group-text">(см)</span>
+    </div>
+    <br>
+    <div class="input-group input-group-lg">
+      <span class="input-group-text input-text-border"><p class="input-text">Кількість рослин</p></span>
+      <input type="text" inputmode="numeric" ngModel="ctrl.dLicence" #nr_input="ngModel" name="nr" [ngModel]="nr"
+             (input)="nrData(nr_input)" required class="form-control" aria-label="Sizing example input"
              aria-describedby="inputGroup-sizing-lg"/>
       <span class="input-group-text">(нас)</span>
     </div>
@@ -24,19 +32,15 @@
   <br>
   <table style="width:100%; color: white; font-size: 1.2rem" [hidden]="!isCounted">
     <tr>
-      <td>Метер погонний:</td>
+      <td>Метер погоннийу:</td>
       <td>{{mp}}</td>
       <td>(м)</td>
     </tr>
     <tr>
-      <td>Відстань між насінинками:</td>
-      <td>{{d}}</td>
-      <td>(см)</td>
+      <td>Густина посіву:</td>
+      <td>{{gp}}</td>
+      <td>(шт/мп)</td>
     </tr>
-    <tr>
-      <td>Штук / метер:</td>
-      <td>{{numbOnM}}</td>
-      <td></td>
-    </tr>
+
   </table>
 </div>
