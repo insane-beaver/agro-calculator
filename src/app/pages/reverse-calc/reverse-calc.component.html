@@ -1,26 +1,24 @@
-<div class="">
+<div>
   <form class="md-float-material form-material" #CalcForm="ngForm" (ngSubmit)="calculate(CalcForm)">
     <div class="input-group input-group-lg">
-      <span class="input-group-text input-text-border"><p class="input-text">Міжряддя</p></span>
-      <input type="number" min="1" step="0.1" #bRows_input="ngModel" name="bRows" [ngModel]="bRows" required
-             class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-      <span class="input-group-text">(см)</span>
+      <label class="input-group-text input-text-border" for="bRows"><span class="input-text">Міжряддя</span></label>
+      <input id="bRows" type="number" min="0.1" step="0.1" name="bRows" [ngModel]="bRows" required
+             class="form-control" aria-describedby="bRows-unit">
+      <span class="input-group-text" id="bRows-unit">(см)</span>
     </div>
     <br>
     <div class="input-group input-group-lg">
-      <span class="input-group-text input-text-border"><p class="input-text">Обрахункова відстань</p></span>
-      <input type="text" inputmode="numeric" ngModel="ctrl.dLicence" #ob_input="ngModel" name="ob" [ngModel]="ob"
-             (input)="obData(ob_input)" required class="form-control" aria-label="Sizing example input"
-             aria-describedby="inputGroup-sizing-lg"/>
-      <span class="input-group-text">(см)</span>
+      <label class="input-group-text input-text-border" for="ob"><span class="input-text">Облікова відстань</span></label>
+      <input id="ob" type="text" inputmode="decimal" #ob_input="ngModel" name="ob" [ngModel]="ob"
+             (input)="obData(ob_input)" required class="form-control" aria-describedby="ob-unit"/>
+      <span class="input-group-text" id="ob-unit">(м)</span>
     </div>
-    <br>
+    <p class="field-hint">Довжина рядка в метрах, на якій рахували рослини.</p>
     <div class="input-group input-group-lg">
-      <span class="input-group-text input-text-border"><p class="input-text">Кількість рослин</p></span>
-      <input type="text" inputmode="numeric" ngModel="ctrl.dLicence" #nr_input="ngModel" name="nr" [ngModel]="nr"
-             (input)="nrData(nr_input)" required class="form-control" aria-label="Sizing example input"
-             aria-describedby="inputGroup-sizing-lg"/>
-      <span class="input-group-text">(нас)</span>
+      <label class="input-group-text input-text-border" for="nr"><span class="input-text">Кількість рослин</span></label>
+      <input id="nr" type="text" inputmode="numeric" #nr_input="ngModel" name="nr" [ngModel]="nr"
+             (input)="nrData(nr_input)" required class="form-control" aria-describedby="nr-unit"/>
+      <span class="input-group-text" id="nr-unit">(шт)</span>
     </div>
     <br>
     <div class="d-flex justify-content-center">
@@ -30,17 +28,22 @@
     </div>
   </form>
   <br>
-  <table style="width:100%; color: white; font-size: 1.2rem" [hidden]="!isCounted">
+  <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  <table class="result-table" *ngIf="isCounted">
     <tr>
-      <td>Метер погоннийу:</td>
+      <td>Метр погонний:</td>
       <td>{{mp}}</td>
-      <td>(м)</td>
+      <td>(м/м²)</td>
     </tr>
     <tr>
-      <td>Густина посіву:</td>
-      <td>{{gp}}</td>
+      <td>Штук / метр:</td>
+      <td>{{numbOnM}}</td>
       <td>(шт/мп)</td>
     </tr>
-
+    <tr>
+      <td>Густота посіву:</td>
+      <td>{{gp}}</td>
+      <td>(шт/га)</td>
+    </tr>
   </table>
 </div>

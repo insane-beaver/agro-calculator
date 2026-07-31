@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { MainLayoutComponent } from './main-layout.component';
 
@@ -8,7 +9,8 @@ describe('MainLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MainLayoutComponent ]
+      imports: [RouterTestingModule],
+      declarations: [MainLayoutComponent]
     })
     .compileComponents();
   });
@@ -21,5 +23,15 @@ describe('MainLayoutComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('меню відкривається і закривається', () => {
+    expect(component.isOpened).toBe(false);
+
+    component.toggleOverlay();
+    expect(component.isOpened).toBe(true);
+
+    component.closeOverlay();
+    expect(component.isOpened).toBe(false);
   });
 });
