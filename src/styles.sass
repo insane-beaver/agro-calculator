@@ -1,12 +1,26 @@
 //Imports
 @import "~bootstrap-icons/font/bootstrap-icons.css"
+@import "variables"
 
-//Colors
-$dark-brown: #330F0A
-$dark-blue: #394F49
-$green: #65743A
-$yellow-skin: #EFDD8D
-$yellow: #F4FDAF
-$header-size: 3.5rem
+// Спільні стилі сторінок-калькуляторів
+.result-table
+  width: 100%
+  color: white
+  font-size: 1.2rem
 
+.result-table td
+  padding: 0.15rem 0
 
+.result-table td:nth-child(2)
+  text-align: right
+  font-weight: 600
+  white-space: nowrap
+
+.result-table td:last-child
+  padding-left: 0.5rem
+  white-space: nowrap
+
+.field-hint
+  color: rgba(255, 255, 255, 0.75)
+  font-size: 0.9rem
+  margin: 0.35rem 0 1rem

@@ -1,13 +1,18 @@
-@import "src/styles"
+@import "src/variables"
 
 .background-img
   min-height: 100vh
-  background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6) ), url("https://insane-beaver.github.io/agro-calculator/assets/field.jpg")
-  height: 100%
+  background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6) ), url("../../../assets/field.jpg")
   background-position: center
   background-repeat: no-repeat
   background-size: cover
   background-attachment: fixed
+  // футер притискаємо донизу, щоб на коротких сторінках фон не тягнувся під ним
+  display: flex
+  flex-direction: column
+
+.layout-box
+  flex: 1 0 auto
 
 .header
   background-color: rgba($dark-brown, 0.9)
@@ -27,10 +32,12 @@
   border: none
   cursor: pointer
   display: flex
+  align-items: center
+  justify-content: center
   padding: 0
-  max-height: 3rem
-  max-width: 3rem
-  margin-top: -1.5rem
+  width: 2.75rem
+  height: 2.75rem
+  flex-shrink: 0
 .line
   fill: none
   stroke: white
@@ -78,19 +85,28 @@
   display: block
   transition: 0.2s ease-out
 
+.sidebar.sidebar-open
+  width: 200px
+
 .sidebar-content
   display: none
   overflow: hidden
-.sidebar-content-open
+.sidebar-content.sidebar-content-open
   display: block
-  animation: fadeout 1.2s ease-out
-.sidebar-content-close
-  animation: fadein 0.3s ease-in
+  animation: fade-in 0.5s ease-out
 
-.sidebar a:hover
+@keyframes fade-in
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+.sidebar a:hover,
+.sidebar a.active
   color: #f1f1f1
 
 .site-footer
+  flex-shrink: 0
   background-color: #26272b
   padding: 45px 0 20px
   font-size: 15px
@@ -137,6 +153,18 @@
 
 .site-footer .social-icons
   text-align: right
+
+.footer-author
+  display: flex
+  align-items: center
+  justify-content: flex-end
+  gap: 0.75rem
+
+.footer-author .copyright-text
+  white-space: nowrap
+
+.footer-author .social-icons
+  margin-bottom: 0
 
 .site-footer .social-icons a
   width: 40px
@@ -199,17 +227,8 @@
   width: 34px
   font-size: 14px
 
-.social-icons a.facebook:hover
-  background-color: #3b5998
-
-.social-icons a.twitter:hover
-  background-color: #00aced
-
 .social-icons a.linkedin:hover
   background-color: #007bb6
-
-.social-icons a.dribbble:hover
-  background-color: #ea4c89
 
 @media (max-width: 767px)
   .social-icons li.title

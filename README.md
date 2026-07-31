@@ -1,27 +1,58 @@
-# AgroCalculator
+# AgroCalc
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.
+Калькулятор норми висіву. Живе на GitHub Pages:
+https://insane-beaver.github.io/agro-calculator/
 
-## Development server
+## Що рахує
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+**Основний калькулятор** — за міжряддям (см) і нормою висіву (насінин/га) дає:
 
-## Code scaffolding
+| Величина | Формула | Одиниці |
+|---|---|---|
+| Метр погонний | `100 / міжряддя` | м рядка на 1 м² поля |
+| Відстань між насінинами | `1 000 000 / норма × метр_погонний` | см |
+| Штук / метр | `100 / відстань` | насінин на 1 м рядка |
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+**Зворотний калькулятор** — за міжряддям (см), **обліковою відстанню в МЕТРАХ**
+і кількістю порахованих на ній рослин дає густоту в шт/га:
 
-## Build
+```
+густота = (рослини / облікова_відстань_м) × метр_погонний × 10 000
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Приклад, яким перевіряються обидва напрямки: міжряддя 70 см, 56 рослин на 10 м
+рядка → 5.6 шт/мп → 80 000 шт/га; і навпаки — 70 см та 80 000 нас/га → 17.857 см
+між насінинами.
 
-## Running unit tests
+Математика лежить у [src/app/shared/agro-calc.ts](src/app/shared/agro-calc.ts)
+і покрита тестами в [agro-calc.spec.ts](src/app/shared/agro-calc.spec.ts).
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Розробка
 
-## Running end-to-end tests
+Проєкт на Angular 12. **Для `ng serve` потрібен Node 14 або 16** — на Node 17+
+дев-сервер падає з `No such module: http_parser` (webpack-dev-server 3 не
+сумісний із новими Node).
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```bash
+npm ci
+npm start        # http://localhost:4200
+npm test         # unit-тести
+npm run lint
+```
 
-## Further help
+Збірка (`npm run build:pages`) працює й на новіших Node — скрипт сам додає
+`--openssl-legacy-provider`, без якого webpack 5 падає з
+`ERR_OSSL_EVP_UNSUPPORTED` на OpenSSL 3.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Деплой на GitHub Pages
+
+Pages роздає теку `docs/` з гілки. Щоб оновити сайт:
+
+```bash
+npm run build:pages
+```
+
+Скрипт збирає продакшн-версію в `docs/` з `--base-href /agro-calculator/`,
+кладе поруч `404.html` (копію `index.html` — без неї прямий перехід на
+`/agro-calculator/reverse-calc` дає сторінку помилки GitHub) і `.nojekyll`.
+Далі — закомітити `docs/` і запушити.

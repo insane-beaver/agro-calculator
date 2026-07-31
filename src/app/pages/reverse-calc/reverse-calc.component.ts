@@ -1,60 +1,55 @@
-import { Component, OnInit } from '@angular/core';
-import firebase from 'firebase/app';
-import {NgForm, NgModel} from '@angular/forms';
+import { Component } from '@angular/core';
+import { NgForm, NgModel } from '@angular/forms';
+import { calcSeedingRate, round } from '../../shared/agro-calc';
+import { formatInput, formatNumber, parseNumber } from '../../shared/number-format';
 
 @Component({
   selector: 'app-reverse-calc',
   templateUrl: './reverse-calc.component.html',
   styleUrls: ['./reverse-calc.component.sass']
 })
-export class ReverseCalcComponent implements OnInit {
+export class ReverseCalcComponent {
 
   bRows!: number;
+  /** Облікова відстань уздовж рядка, метри. */
   ob!: string;
+  /** Кількість рослин, порахованих на обліковій відстані. */
   nr!: string;
-  gp!: string
+  gp!: string;
   mp!: number;
-  isCounted: boolean = false
-  analytics;
-
-  constructor() {
-    this.analytics = firebase.analytics();
-  }
-
-  ngOnInit(): void {
-  }
+  numbOnM!: number;
+  isCounted = false;
+  error = '';
 
   calculate(form: NgForm): void {
-    this.analytics.logEvent(form);
-    this.bRows = form.value.bRows;
-    this.ob = this.replaceSpaces(form.value.ob);
-    this.nr = this.replaceSpaces(form.value.nr);
+    const rowSpacing = parseNumber(form.value.bRows);
+    const countedLengthM = parseNumber(form.value.ob);
+    const plantsCounted = parseNumber(form.value.nr);
 
-    if(!((this.bRows<1)&&(Number(this.ob)<1)&&(Number(this.nr)<1))) {
-      this.mp = +(100 / this.bRows).toFixed(3);
-      let gp = +(this.mp*Number(this.nr)/Number(this.ob)*10000).toFixed(3);
-
-      this.isCounted = true;
-      this.ob = (this.ob).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-      this.nr = (this.nr).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-      this.gp = (gp+'').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+    if (!(rowSpacing > 0) || !(countedLengthM > 0) || !(plantsCounted > 0)) {
+      this.isCounted = false;
+      this.error = 'Усі поля мають бути числами, більшими за нуль.';
+      return;
     }
+
+    const result = calcSeedingRate(rowSpacing, countedLengthM, plantsCounted);
+
+    this.error = '';
+    this.bRows = rowSpacing;
+    this.mp = round(result.metersPerSquare);
+    this.numbOnM = round(result.seedsPerMeter);
+    this.gp = formatNumber(round(result.seedsPerHectare));
+    this.ob = formatNumber(countedLengthM);
+    this.nr = formatNumber(plantsCounted);
+    this.isCounted = true;
   }
 
-  obData(input: NgModel) {
-    this.ob = (this.replaceSpaces(input.viewModel+'')).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+  obData(input: NgModel): void {
+    this.ob = formatInput(input.viewModel);
   }
 
-  nrData(input: NgModel) {
-    this.nr = (this.replaceSpaces(input.viewModel+'')).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-  }
-
-  replaceSpaces(input: string) {
-    let arr: string[] = (input).split('');
-    arr.forEach(element => {
-      if(element == ' ') arr.splice(arr.indexOf(element),1);
-    });
-    return arr.join('');
+  nrData(input: NgModel): void {
+    this.nr = formatInput(input.viewModel);
   }
 
 }
